@@ -24,7 +24,7 @@ vehicle1.displayAllFleetMembers()
 
 addVehicle = Fleet("hovercraft", 50, "ground/water", 0)
 
-addVehicle.addVehicles("Whispering Water")
+addVehicle.addVehicles(str(input("Enter vehicle identifier")))
 
 vehicle1.displayAllFleetMembers()
   
