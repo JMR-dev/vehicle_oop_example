@@ -28,6 +28,14 @@ addVehicle = Fleet("hovercraft", 50, "ground/water", 0)
 vehicle1.displayAllFleetMembers()
   
   
+class GroundVehicle(ABC, Vehicle):
+
+    
+    @abstractmethod
+    def __init__(self, volume):
+        # default value set to true. Many ground vehicles will have trailers or train cars. Modified as needed
+        self.isModular = True
+        
 class Vehicle(ABC):
     '''Defines the properties of vehicles'''
     
@@ -41,8 +49,3 @@ class Vehicle(ABC):
         self.weightType = "kg"
         self.weight = 0
         
-class GroundVehicle:(ABC, Vehicle)
-'''Doc string goes here'''
-    
-    # @abstractmethod
-    # def __init__(self):
