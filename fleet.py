@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 class Fleet():
     vehicles = ["7E19H2", "N9460G32581A3", "BN4681"]
     
@@ -24,7 +25,24 @@ vehicle1.displayAllFleetMembers()
 
 addVehicle = Fleet("hovercraft", 50, "ground/water", 0)
 
-addVehicle.addVehicles(str(input("Enter vehicle identifier")))
-
 vehicle1.displayAllFleetMembers()
   
+  
+class Vehicle(ABC):
+    '''Defines the properties of vehicles'''
+    
+    # https://www.geeksforgeeks.org/inheritance-and-composition-in-python/
+    @abstractmethod
+    def __init__(self, gpsPosition, velocity, weight, velocityType, weightType):
+        self.vehicleObject = Fleet()
+        self.gpsPosition = [0,0]
+        self.velocity = 0
+        self.velocityType = "kph"
+        self.weightType = "kg"
+        self.weight = 0
+        
+class GroundVehicle:(ABC, Vehicle)
+'''Doc string goes here'''
+    
+    # @abstractmethod
+    # def __init__(self):
