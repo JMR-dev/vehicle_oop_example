@@ -57,18 +57,26 @@ class GroundVehicle(Vehicle, GroundVehicleInterface):
         # default value set to true. Many ground vehicles will have trailers or train cars. Modified as needed
         self.isModular = True
         self.moveGroundVehicle = float(input())
+        
+class RoadVehicle(GroundVehicle):
+    
+    @abstractmethod
+    def __init__(self, _axlecount):
+        self.axleCount = _axlecount
     
 class Train(GroundVehicle):
-    def __init__(self, noOfCarsAttached, locomotiveCount):
-        self.noOfCarsAttached = 1
-        self.locomotiveCount = 1
+    def __init__(self, _noOfCarsAttached, _locomotiveCount):
+        self.noOfCarsAttached = _noOfCarsAttached
+        self.locomotiveCount = _locomotiveCount
         
     def displayCarCount(self):
         print(self.noOfCarsAttached)
-        
+    def displayLocomotiveCount(self):
+        print(self.locomotiveCount)
     def travel(self):
         print("Speed 60mph, Direction E")
         
 Train1 = Train(20, 2)
 
 Train1.displayCarCount()
+Train1.displayLocomotiveCount()
