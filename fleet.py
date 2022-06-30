@@ -19,13 +19,13 @@ class Fleet():
     def addVehicles(self, newVehicleId):
         self.vehicles.append(newVehicleId)
     
-vehicle1 = Fleet("car", 120, "ground", Fleet.vehicles[0])
+# vehicle1 = Fleet("car", 120, "ground", Fleet.vehicles[0])
   
-vehicle1.displayAllFleetMembers()
+# vehicle1.displayAllFleetMembers()
 
-addVehicle = Fleet("hovercraft", 50, "ground/water", 0)
+# addVehicle = Fleet("hovercraft", 50, "ground/water", 0)
 
-vehicle1.displayAllFleetMembers()
+# vehicle1.displayAllFleetMembers()
   
   
 
@@ -43,11 +43,29 @@ class Vehicle(ABC):
         self.weightType = "kg"
         self.weight = 0
         
-class GroundVehicle(Vehicle):
+class GroundVehicleInterface(ABC):
+    '''Resource on Python interfaces. This is duck typed. https://realpython.com/python-interface/'''
+    @abstractmethod
+    def travel(self):
+        Vehicle.velocity = self.moveGroundVehicle
+        
+class GroundVehicle(Vehicle, GroundVehicleInterface):
 
     
     @abstractmethod
     def __init__(self, volume):
         # default value set to true. Many ground vehicles will have trailers or train cars. Modified as needed
         self.isModular = True
+        self.moveGroundVehicle = float(input())
+    
+class Train(GroundVehicle):
+    def __init__(self, noOfCarsAttached, locomotiveCount):
+        self.noOfCarsAttached = 1
+        self.locomotiveCount = 1
         
+    def displayCarCount(self):
+        print(self.noOfCarsAttached)
+        
+Train1 = Train(20, 2)
+
+Train.displayCarCount()
