@@ -66,6 +66,9 @@ class Train(GroundVehicle):
     def displayCarCount(self):
         print(self.noOfCarsAttached)
         
+    def travel(self):
+        print("Speed 60mph, Direction E")
+        
 Train1 = Train(20, 2)
 
-Train.displayCarCount()
+Train1.displayCarCount()
