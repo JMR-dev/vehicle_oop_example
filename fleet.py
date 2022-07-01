@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+# ABC is imported from the standard library since Python does not natively support abstract methods and classes.
 class Fleet():
     vehicles = ["7E19H2", "N9460G32581A3", "BN4681"]
     
@@ -44,7 +45,7 @@ class Vehicle(ABC):
         self.weight = 0
         
 class GroundVehicleInterface(ABC):
-    '''Resource on Python interfaces. This is duck typed. https://realpython.com/python-interface/'''
+    '''Resource on Python interfaces. This is duck typed. https://realpython.com/python-interface/ Interfaces make a contract that a method must be implemented if an interface is inherited and allows differing implementations of the same method.'''
     @abstractmethod
     def travel(self):
         Vehicle.velocity = self.moveGroundVehicle
@@ -80,3 +81,15 @@ Train1 = Train(20, 2)
 
 Train1.displayCarCount()
 Train1.displayLocomotiveCount()
+
+# At this point, my code should print out the values from the car count and the locomotive count. Further demonstration of abstract and concrete classes to follow
+
+class semi_Truck(GroundVehicle):
+    def __init__(self, _noOfTrailersAttached):
+        self.noOfTrailersAttached = _noOfTrailersAttached
+    def displayNoOfTrailersAttached(self):
+        print(self.noOfTrailersAttached)
+        
+Semi_Truck1 = semi_Truck(f"This truck has {2} trailers attached.")
+
+semi_Truck.displayNoOfTrailersAttached()
