@@ -89,7 +89,10 @@ class semi_Truck(GroundVehicle):
         self.noOfTrailersAttached = _noOfTrailersAttached
     def displayNoOfTrailersAttached(self):
         print(self.noOfTrailersAttached)
+    def travel(self):
+        print("Currently unloading")
         
 Semi_Truck1 = semi_Truck(f"This truck has {2} trailers attached.")
 
-semi_Truck.displayNoOfTrailersAttached()
+# Remember to be careful to check that you are running the method on an instance of the class, not on the class definition.
+Semi_Truck1.displayNoOfTrailersAttached()
