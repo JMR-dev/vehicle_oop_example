@@ -87,19 +87,20 @@ Train1.displayLocomotiveCount()
 
 # Always encapsulate parent constructors into child classes to make those variables available
 class semi_Truck(RoadVehicle):
-    def __init__(self, _noOfTrailersAttached):
+    def __init__(self, _noOfTrailersAttached, _axlecount):
         self.noOfTrailersAttached = _noOfTrailersAttached
-    super(Vehicle.status,GroundVehicleInterface.travel())
+        # super in Python returns an object representing the parent class and 
+        super().__init__(_axlecount)
         # Don't modify passed in values unless absolutely necessary
-    def displayNoOfTrailersAttached(self):
-        print(self.noOfTrailersAttached)
+    def displaySemiAttributes(self):
+        print(self.noOfTrailersAttached, self.axleCount)
     def travel(self):
         print(Vehicle.status)
         
-Semi_Truck1 = semi_Truck(f"This truck has {2} trailers attached.")
+Semi_Truck1 = semi_Truck(f"This truck has {2} trailers attached", f"and {4} axles.")
 
 # Remember to be careful to check that you are running the method on an instance of the class, not on the class definition.
-Semi_Truck1.displayNoOfTrailersAttached()
+Semi_Truck1.displaySemiAttributes()
 
 
 # Next - implement abstracted methods and constructor classes. Demonstrate use of super if Python supports it.
