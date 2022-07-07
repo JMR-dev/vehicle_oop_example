@@ -55,16 +55,17 @@ class GroundVehicleInterface(ABC):
 class GroundVehicle(Vehicle, GroundVehicleInterface):
 
     @abstractmethod
-    def __init__(self, volume):
+    def __init__(self, _isModular, _moveGroundVehicle):
         # default value set to true. Many ground vehicles will have trailers or train cars. Modified as needed
-        self.isModular = True
-        self.moveGroundVehicle = float(input())
+        self.isModular = _isModular
+        self.moveGroundVehicle = _moveGroundVehicle
         
 class RoadVehicle(GroundVehicle):
     
     @abstractmethod
-    def __init__(self, _axlecount):
+    def __init__(self, _axlecount, _isModular, _moveGroundVehicle):
         self.axleCount = _axlecount
+        super().__init__(_isModular, _moveGroundVehicle)
     
 class Train(GroundVehicle):
     def __init__(self, _noOfCarsAttached, _locomotiveCount):
@@ -87,20 +88,20 @@ Train1.displayLocomotiveCount()
 
 # Always encapsulate parent constructors into child classes to make those variables available
 class semi_Truck(RoadVehicle):
-    def __init__(self, _noOfTrailersAttached, _axlecount):
+    def __init__(self, _noOfTrailersAttached, _axlecount, _isModular, _moveGroundVehicle):
         self.noOfTrailersAttached = _noOfTrailersAttached
         # super in Python returns an object representing the parent class and 
-        super().__init__(_axlecount)
+        super().__init__(_axlecount, _isModular, _moveGroundVehicle)
         # Don't modify passed in values unless absolutely necessary
     def displaySemiAttributes(self):
         print(self.noOfTrailersAttached, self.axleCount)
     def travel(self):
         print(Vehicle.status)
         
-Semi_Truck1 = semi_Truck(f"This truck has {2} trailers attached", f"and {4} axles.")
-
+Semi_Truck1 = semi_Truck(f"This truck has {2} trailers attached", f"and {4} axles.", True, [49.8900000, 50.900000])
+# When possible, build your argument requirements from the top down so that by the time you implement your concrete classes, you know all the data points that you need to include.
 # Remember to be careful to check that you are running the method on an instance of the class, not on the class definition.
-Semi_Truck1.displaySemiAttributes()
+# Semi_Truck1.displaySemiAttributes()
 
 
 # Next - implement abstracted methods and constructor classes. Demonstrate use of super if Python supports it.
