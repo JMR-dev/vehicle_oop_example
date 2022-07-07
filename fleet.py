@@ -85,10 +85,11 @@ Train1.displayLocomotiveCount()
 
 # At this point, my code should print out the values from the car count and the locomotive count. Further demonstration of abstract and concrete classes to follow.
 
+# Always encapsulate parent constructors into child classes to make those variables available
 class semi_Truck(RoadVehicle):
     def __init__(self, _noOfTrailersAttached):
         self.noOfTrailersAttached = _noOfTrailersAttached
-    super().travel(Vehicle.status)
+    super(Vehicle.status,GroundVehicleInterface.travel())
         # Don't modify passed in values unless absolutely necessary
     def displayNoOfTrailersAttached(self):
         print(self.noOfTrailersAttached)
