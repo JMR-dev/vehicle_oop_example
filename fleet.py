@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 # ABC is imported from the standard library since Python does not natively support abstract methods and classes.
 class Fleet():
     
+    fleet_members = []
+    
     def __init__(self, vtype, movspeed, travelmed, vehicleid):
         self.vehicletype = vtype
         self.movementspeed = movspeed
@@ -16,8 +18,8 @@ class Fleet():
     def displayVehicleType(self):
         print(self.vehicletype)
         
-    def addVehicles(self, newVehicleId):
-        self.vehicles.append(newVehicleId)
+    def addVehicle(self, newVehicleId):
+        self.fleet_members.append(newVehicleId)
     
 # vehicle1 = Fleet("car", 120, "ground", Fleet.vehicles[0])
   
@@ -35,7 +37,7 @@ class Vehicle(ABC):
     
     # https://www.geeksforgeeks.org/inheritance-and-composition-in-python/
     @abstractmethod
-    def __init__(self, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status):
+    def __init__(self, _gpsPosition, vtype,movspeed, travelmed, vehicleid, _velocity, _weight, _velocityType, _weightType, _status):
         self.vehicleObject = Fleet()
         self.gpsPosition = _gpsPosition
         self.velocity = _velocity
@@ -56,13 +58,14 @@ class GroundVehicle(Vehicle, GroundVehicleInterface):
     def __init__(self, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status):
         super().__init__(_gpsPosition, _velocity, _weight, _velocityType, _weightType, _status)
         self.isModular = _isModular
+        # modifier to GPS position
         self.moveGroundVehicle = _moveGroundVehicle
         
 class RoadVehicle(GroundVehicle):
     
     @abstractmethod
-    def __init__(self, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status):
-        super().__init__(_isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status)
+    def __init__(self, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid):
+        super().__init__(_isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid)
         self.axleCount = _axlecount
     
 class Train(GroundVehicle):
@@ -86,20 +89,22 @@ Train1.displayLocomotiveCount()
 
 # Always encapsulate parent constructors into child classes to make those variables available
 class semi_Truck(RoadVehicle):
-    def __init__(self, _noOfTrailersAttached, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status):
+    def __init__(self, _noOfTrailersAttached, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid):
         self.noOfTrailersAttached = _noOfTrailersAttached
         # super in Python returns an object representing the parent class and 
-        super().__init__(_axlecount, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status)
+        super().__init__(_axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid)
         # Don't modify passed in values unless absolutely necessary
     def displaySemiAttributes(self):
         print(self.noOfTrailersAttached, self.axleCount)
     def travel(self):
         print(self.status)
         
+ 
+STruck = semi_Truck(2, 4, True, [40.0000, 40.0000], [56.0000, 89.0000], 60, 90000, "mph", "lbs,", "Ready", "Semi Truck", 100, "Ground", "1F8HNG7")       
 
 # When possible, build your argument requirements from the top down so that by the time you implement your concrete classes, you know all the data points that you need to include.
 # Remember to be careful to check that you are running the method on an instance of the class, not on the class definition.
-# Semi_Truck1.displaySemiAttributes()
+STruck.displaySemiAttributes()
 
 
 # Next - implement abstracted methods and constructor classes. Demonstrate use of super if Python supports it.
