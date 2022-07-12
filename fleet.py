@@ -4,36 +4,25 @@ class Fleet():
     
     fleet_members = []
     
-    def __init__(self, vtype, movspeed, travelmed, vehicleid):
-        self.vehicletype = vtype
-        self.movementspeed = movspeed
-        self.travelmedium = travelmed
+    def __init__(self, vehicleid):
         self.uuid = vehicleid
             
             
     def displayAllFleetMembers(self):
         for i in self.vehicles:
             print(i)
-            
-    def displayVehicleType(self):
-        print(self.vehicletype)
         
     def addVehicle(self, newVehicleId):
         self.fleet_members.append(newVehicleId)
     
-
-  
-  
-
-        
 class Vehicle(ABC):
     '''Defines the properties of vehicles'''
     
     # https://www.geeksforgeeks.org/inheritance-and-composition-in-python/
     @abstractmethod
        
-    def __init__(self, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid, _fuelType ):
-        self.vehicleObject = Fleet(vtype,movspeed, travelmed, vehicleid)
+    def __init__(self, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType ):
+        self.vehicleObject = Fleet(vehicleid)
         self.gpsPosition = _gpsPosition
         self.velocity = _velocity
         self.velocityType = _weight
@@ -51,8 +40,8 @@ class GroundVehicleInterface(ABC):
 class GroundVehicle(Vehicle, GroundVehicleInterface):
 
     @abstractmethod
-    def __init__(self, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype, movspeed, travelmed, vehicleid, _fuelType):
-        super().__init__(_gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid, _fuelType)
+    def __init__(self, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status,vehicleid, _fuelType):
+        super().__init__(_gpsPosition, _velocity, _weight, _velocityType, _weightType, _status,vehicleid, _fuelType)
         self.isModular = _isModular
         # modifier to GPS position
         self.moveGroundVehicle = _moveGroundVehicle
@@ -60,8 +49,8 @@ class GroundVehicle(Vehicle, GroundVehicleInterface):
 class RoadVehicle(GroundVehicle):
     
     @abstractmethod
-    def __init__(self, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid, _fuelType):
-        super().__init__(_isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid, _fuelType)
+    def __init__(self, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType):
+        super().__init__(_isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType)
         self.axleCount = _axlecount
     
 class Train(GroundVehicle):
@@ -85,10 +74,10 @@ Train1.displayLocomotiveCount()
 
 # Always encapsulate parent constructors into child classes to make those variables available
 class semi_Truck(RoadVehicle):
-    def __init__(self, _noOfTrailersAttached, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid, _fuelType):
+    def __init__(self, _noOfTrailersAttached, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType):
         self.noOfTrailersAttached = _noOfTrailersAttached
         # super in Python returns an object representing the parent class and 
-        super().__init__(_axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid, _fuelType)
+        super().__init__(_axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType)
         # Don't modify passed in values unless absolutely necessary
     def displaySemiAttributes(self):
         print(f"The semi has {self.noOfTrailersAttached} trailers attached", f"and {self.axleCount} axles.")
@@ -96,7 +85,7 @@ class semi_Truck(RoadVehicle):
         print(self.status)
         
  
-STruck = semi_Truck(2, 4, True, [40.0000, 40.0000], [56.0000, 89.0000], 60, 90000, "mph", "lbs,", "Ready", "Semi Truck", 100, "Ground", "1F8HNG7", "diesel")       
+STruck = semi_Truck(2, 4, True, [40.0000, 40.0000], [56.0000, 89.0000], 60, 90000, "mph", "lbs,", "Ready", "1F8HNG7", "diesel")       
 
 # When possible, build your argument requirements from the top down so that by the time you implement your concrete classes, you know all the data points that you need to include.
 # Remember to be careful to check that you are running the method on an instance of the class, not on the class definition.
