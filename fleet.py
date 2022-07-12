@@ -21,13 +21,7 @@ class Fleet():
     def addVehicle(self, newVehicleId):
         self.fleet_members.append(newVehicleId)
     
-# vehicle1 = Fleet("car", 120, "ground", Fleet.vehicles[0])
-  
-# vehicle1.displayAllFleetMembers()
 
-# addVehicle = Fleet("hovercraft", 50, "ground/water", 0)
-
-# vehicle1.displayAllFleetMembers()
   
   
 
@@ -37,8 +31,8 @@ class Vehicle(ABC):
     
     # https://www.geeksforgeeks.org/inheritance-and-composition-in-python/
     @abstractmethod
-    def __init__(self, _gpsPosition, vtype,movspeed, travelmed, vehicleid, _velocity, _weight, _velocityType, _weightType, _status):
-        self.vehicleObject = Fleet()
+    def __init__(self, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid):
+        self.vehicleObject = Fleet(vtype,movspeed, travelmed, vehicleid)
         self.gpsPosition = _gpsPosition
         self.velocity = _velocity
         self.velocityType = _weight
@@ -55,8 +49,8 @@ class GroundVehicleInterface(ABC):
 class GroundVehicle(Vehicle, GroundVehicleInterface):
 
     @abstractmethod
-    def __init__(self, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status):
-        super().__init__(_gpsPosition, _velocity, _weight, _velocityType, _weightType, _status)
+    def __init__(self, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid):
+        super().__init__(_gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid)
         self.isModular = _isModular
         # modifier to GPS position
         self.moveGroundVehicle = _moveGroundVehicle
@@ -95,7 +89,7 @@ class semi_Truck(RoadVehicle):
         super().__init__(_axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vtype,movspeed, travelmed, vehicleid)
         # Don't modify passed in values unless absolutely necessary
     def displaySemiAttributes(self):
-        print(self.noOfTrailersAttached, self.axleCount)
+        print(f"The semi has {self.noOfTrailersAttached} trailers attached", f"and {self.axleCount} axles.")
     def travel(self):
         print(self.status)
         
@@ -122,4 +116,12 @@ Vehicle.velocity = self.moveGroundVehicle
 Object implementation
 
 Semi_Truck1 = semi_Truck(f"This truck has {2} trailers attached", f"and {4} axles.", True, [49.8900000, 50.900000])
+
+# vehicle1 = Fleet("car", 120, "ground", Fleet.vehicles[0])
+  
+# vehicle1.displayAllFleetMembers()
+
+# addVehicle = Fleet("hovercraft", 50, "ground/water", 0)
+
+# vehicle1.displayAllFleetMembers()
 '''
