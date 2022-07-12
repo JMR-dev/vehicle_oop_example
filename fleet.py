@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import enum
 # ABC is imported from the standard library since Python does not natively support abstract methods and classes.
 class Fleet():
     
@@ -17,6 +18,7 @@ class Fleet():
     
 class Vehicle(ABC):
     '''Defines the properties of vehicles'''
+    # _fuelType = ("Diesel", "Gasoline", "Aviation Gas", "Electricity", "Nuclear", "100LL")
     
     # https://www.geeksforgeeks.org/inheritance-and-composition-in-python/
     @abstractmethod
@@ -25,12 +27,24 @@ class Vehicle(ABC):
         self.vehicleObject = Fleet(vehicleid)
         self.gpsPosition = _gpsPosition
         self.velocity = _velocity
-        self.velocityType = _weight
-        self.weightType = _velocityType
-        self.weight = _weightType
+        self.velocityType = _velocityType
+        self.weight = _weight
+        self.weightType = _weightType
         self.status = _status
         self.fuelType = _fuelType
+    
+    def loadCargo(self, _weight):
+        self.status = "Loading cargo"
+        # How do I access the set value in the init above?
+        self.weight = _weight + input(f"Enter cargo weight.")
         
+class fuelTypes(enum.Enum):
+    Diesel = 1
+    Gasoline = 2
+    Aviation_Kerosene = 3
+    Electricity = 4
+    Nuclear = 5
+    Aviation_Gas = 6
 class GroundVehicleInterface(ABC):
     '''Resource on Python interfaces. This is duck typed. https://realpython.com/python-interface/ Interfaces make a contract that a method must be implemented if an interface is inherited and allows differing implementations of the same method.'''
     @abstractmethod
