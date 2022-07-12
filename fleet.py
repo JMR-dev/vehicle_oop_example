@@ -91,7 +91,7 @@ class semi_Truck(RoadVehicle):
     def __init__(self, _noOfTrailersAttached, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType):
         self.noOfTrailersAttached = _noOfTrailersAttached
         # super in Python returns an object representing the parent class and 
-        super().__init__(_axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType)
+        super().__init__(_axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType, "Semi Truck")
         # Don't modify passed in values unless absolutely necessary
     def displaySemiAttributes(self):
         print(f"The semi has {self.noOfTrailersAttached} trailers attached", f"and {self.axleCount} axles.")
