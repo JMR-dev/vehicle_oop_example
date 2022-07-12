@@ -102,6 +102,8 @@ STruck = semi_Truck(2, 4, True, [40.0000, 40.0000], [56.0000, 89.0000], 60, 9000
 # Remember to be careful to check that you are running the method on an instance of the class, not on the class definition.
 STruck.displaySemiAttributes()
 
+print(STruck.isModular)
+
 
 # Next - implement abstracted methods and constructor classes. Demonstrate use of super if Python supports it.
 # Use these values in instances and show that values can be accessed regardless of what level they live on.
