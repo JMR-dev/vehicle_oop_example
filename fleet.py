@@ -33,10 +33,9 @@ class Vehicle(ABC):
         self.status = _status
         self.fuelType = _fuelType
     
+    @abstractmethod    
     def loadCargo(self, _weight):
-        self.status = "Loading cargo"
-        # How do I access the set value in the init above?
-        self.weight = _weight + input(f"Enter cargo weight.")
+        pass
         
 class fuelTypes(enum.Enum):
     Diesel = 1
@@ -78,6 +77,16 @@ class Train(GroundVehicle, GroundVehicleInterface):
         print(f"The train has {self.locomotiveCount} locomotives attached.")
     def travel(self):
         print("Speed 60mph, Direction E")
+    def loadCargo(self, _weight, _noOfCarsAttached):
+            super().loadCargo(_weight)
+            self.weight = _weight + input(f"Enter cargo weight (integer values only).")
+            try:
+                weight = int(weight)
+            except ValueError:
+                self.weight = _weight + input(f"That entry was not an integer. Enter cargo weight in integers only.")
+        
+        
+   # Pattern used for loadCargo - https://stackoverflow.com/questions/38987072/how-to-force-integer-input-in-python-3-x     
         
 Train1 = Train(20, 2)
 
@@ -91,13 +100,31 @@ class semi_Truck(RoadVehicle, GroundVehicleInterface):
     def __init__(self, _noOfTrailersAttached, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType):
         self.noOfTrailersAttached = _noOfTrailersAttached
         # super in Python returns an object representing the parent class and 
-        super().__init__(_axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType, "Semi Truck")
+        super().__init__(_axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType)
         # Don't modify passed in values unless absolutely necessary
     def displaySemiAttributes(self):
         print(f"The semi has {self.noOfTrailersAttached} trailers attached", f"and {self.axleCount} axles.")
     def travel(self):
         print(self.status)
-        
+    def loadCargo(self, _weight):
+        super().loadCargo(_weight)
+        self.status = "Loading cargo"
+        # How do I access the set value in the init above?
+        self.weight = _weight + input(f"Enter cargo weight (integer values only).")
+        try:
+            weight = int(weight)
+        except ValueError:
+            self.weight = _weight + input(f"That entry was not an integer. Enter cargo weight in integers only.")
+    '''
+    Error message
+    Enter cargo weight (integer values only).70000
+Traceback (most recent call last):
+  File "/Users/jason.ross/workspace/python_oop_practice/vehicle_oop_example/fleet.py", line 126, in <module>
+    STruck.loadCargo(90000)
+  File "/Users/jason.ross/workspace/python_oop_practice/vehicle_oop_example/fleet.py", line 113, in loadCargo
+    self.weight = _weight + input(f"Enter cargo weight (integer values only).")
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+    '''      
  
 STruck = semi_Truck(2, 4, True, [40.0000, 40.0000], [56.0000, 89.0000], 60, 90000, "mph", "lbs,", "Ready", "1F8HNG7", "diesel")       
 
@@ -105,7 +132,7 @@ STruck = semi_Truck(2, 4, True, [40.0000, 40.0000], [56.0000, 89.0000], 60, 9000
 # Remember to be careful to check that you are running the method on an instance of the class, not on the class definition.
 STruck.displaySemiAttributes()
 
-print(STruck.isModular)
+STruck.loadCargo(90000)
 
 
 # Next - implement abstracted methods and constructor classes. Demonstrate use of super if Python supports it.
