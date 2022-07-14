@@ -10,7 +10,7 @@ class Fleet():
             
             
     def displayAllFleetMembers(self):
-        for i in self.vehicles:
+        for i in self.fleet_members:
             print(i)
         
     def addVehicle(self, newVehicleId):
@@ -51,7 +51,7 @@ class GroundVehicleInterface(ABC):
     def travel(self):
         pass
         
-class GroundVehicle(Vehicle, GroundVehicleInterface):
+class GroundVehicle(Vehicle):
 
     @abstractmethod
     def __init__(self, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status,vehicleid, _fuelType):
@@ -67,7 +67,7 @@ class RoadVehicle(GroundVehicle):
         super().__init__(_isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType)
         self.axleCount = _axlecount
     
-class Train(GroundVehicle):
+class Train(GroundVehicle, GroundVehicleInterface):
     def __init__(self, _noOfCarsAttached, _locomotiveCount):
         self.noOfCarsAttached = _noOfCarsAttached
         self.locomotiveCount = _locomotiveCount
@@ -87,7 +87,7 @@ Train1.displayLocomotiveCount()
 # At this point, my code should print out the values from the car count and the locomotive count. Further demonstration of abstract and concrete classes to follow.
 
 # Always encapsulate parent constructors into child classes to make those variables available
-class semi_Truck(RoadVehicle):
+class semi_Truck(RoadVehicle, GroundVehicleInterface):
     def __init__(self, _noOfTrailersAttached, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType):
         self.noOfTrailersAttached = _noOfTrailersAttached
         # super in Python returns an object representing the parent class and 
