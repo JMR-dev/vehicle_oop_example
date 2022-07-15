@@ -33,9 +33,8 @@ class Vehicle(ABC):
         self.status = _status
         self.fuelType = _fuelType
     
-    @abstractmethod    
     def loadCargo(self, _weight):
-        pass
+        self.status = "loading cargo"
         
 class fuelTypes(enum.Enum):
     Diesel = 1
@@ -108,13 +107,12 @@ class semi_Truck(RoadVehicle, GroundVehicleInterface):
         print(self.status)
     def loadCargo(self, _weight):
         super().loadCargo(_weight)
-        self.status = "Loading cargo"
         # How do I access the set value in the init above?
-        self.weight = _weight + input(f"Enter cargo weight (integer values only).")
         try:
-            weight = int(weight)
+            self.weight = _weight + int(input(f"Enter cargo weight (integer values only)."))
+            print(f"The semi truck is {self.status}.", f"Cargo weight is {self.weight}.")
         except ValueError:
-            self.weight = _weight + input(f"That entry was not an integer. Enter cargo weight in integers only.")
+            self.weight = _weight + int(input(f"That entry was not an integer. Enter cargo weight in integers only."))
     '''
     Error message
     Enter cargo weight (integer values only).70000
@@ -133,6 +131,7 @@ STruck = semi_Truck(2, 4, True, [40.0000, 40.0000], [56.0000, 89.0000], 60, 9000
 STruck.displaySemiAttributes()
 
 STruck.loadCargo(90000)
+
 
 
 # Next - implement abstracted methods and constructor classes. Demonstrate use of super if Python supports it.
