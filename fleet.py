@@ -113,6 +113,7 @@ class semi_Truck(RoadVehicle, GroundVehicleInterface):
             print(f"The semi truck is {self.status}.", f"Cargo weight is {self.weight}.")
         except ValueError:
             self.weight = _weight + int(input(f"That entry was not an integer. Enter cargo weight in integers only."))
+            print(f"The semi truck is {self.status}.", f"Cargo weight is {self.weight}.")
     '''
     Error message
     Enter cargo weight (integer values only).70000
