@@ -35,6 +35,7 @@ class Vehicle(ABC):
     
     def loadCargo(self, _weight):
         self.status = "loading cargo"
+        print(self.status)
         
 class fuelTypes(enum.Enum):
     Diesel = 1
@@ -43,6 +44,19 @@ class fuelTypes(enum.Enum):
     Electricity = 4
     Nuclear = 5
     Aviation_Gas = 6
+class VehicleTypes(enum.Enum):
+# This enum exists to provide easy access to the user creating a new object type
+    semi_truck = 1
+    train = 2
+    truck = 3
+    van = 4
+    car = 5
+    hovercraft = 6
+    barge = 7
+    ship = 8
+    airplane = 9
+    helicopter = 10
+    
 class GroundVehicleInterface(ABC):
     '''Resource on Python interfaces. This is duck typed. https://realpython.com/python-interface/ Interfaces make a contract that a method must be implemented if an interface is inherited and allows differing implementations of the same method.'''
     @abstractmethod
@@ -87,10 +101,10 @@ class Train(GroundVehicle, GroundVehicleInterface):
         
    # Pattern used for loadCargo - https://stackoverflow.com/questions/38987072/how-to-force-integer-input-in-python-3-x     
         
-Train1 = Train(20, 2)
+# Train1 = Train(20, 2)
 
-Train1.displayCarCount()
-Train1.displayLocomotiveCount()
+# Train1.displayCarCount()
+# Train1.displayLocomotiveCount()
 
 # At this point, my code should print out the values from the car count and the locomotive count. Further demonstration of abstract and concrete classes to follow.
 
@@ -114,24 +128,27 @@ class semi_Truck(RoadVehicle, GroundVehicleInterface):
         except ValueError:
             self.weight = _weight + int(input(f"That entry was not an integer. Enter cargo weight in integers only."))
             print(f"The semi truck is {self.status}.", f"Cargo weight is {self.weight}.")
-    '''
-    Error message
-    Enter cargo weight (integer values only).70000
-Traceback (most recent call last):
-  File "/Users/jason.ross/workspace/python_oop_practice/vehicle_oop_example/fleet.py", line 126, in <module>
-    STruck.loadCargo(90000)
-  File "/Users/jason.ross/workspace/python_oop_practice/vehicle_oop_example/fleet.py", line 113, in loadCargo
-    self.weight = _weight + input(f"Enter cargo weight (integer values only).")
-TypeError: unsupported operand type(s) for +: 'int' and 'str'
-    '''      
+
+# https://realpython.com/factory-method-python/
+class VehicleSerializer():
+    
+# Create object first before asking for input. Then insert object
+    def inputFunc(user_input):
+        listVehicleTypes = print(map(VehicleTypes))
+        user_input = [input("Enter vehicle weight"), ]
+        return listVehicleTypes, user_input
+    
+    def serialize(self, user_input, inputFunc):
+        serializer = inputFunc(user_input)
+        return serializer(user_input)
  
-STruck = semi_Truck(2, 4, True, [40.0000, 40.0000], [56.0000, 89.0000], 60, 90000, "mph", "lbs,", "Ready", "1F8HNG7", "diesel")       
+# STruck = semi_Truck(2, 4, True, [40.0000, 40.0000], [56.0000, 89.0000], 60, 90000, "mph", "lbs,", "Ready", "1F8HNG7", "diesel")       
 
 # When possible, build your argument requirements from the top down so that by the time you implement your concrete classes, you know all the data points that you need to include.
 # Remember to be careful to check that you are running the method on an instance of the class, not on the class definition.
-STruck.displaySemiAttributes()
+# STruck.displaySemiAttributes()
 
-STruck.loadCargo(90000)
+# STruck.loadCargo(90000)
 
 
 
@@ -158,4 +175,13 @@ Semi_Truck1 = semi_Truck(f"This truck has {2} trailers attached", f"and {4} axle
 # addVehicle = Fleet("hovercraft", 50, "ground/water", 0)
 
 # vehicle1.displayAllFleetMembers()
+
+Error message
+    Enter cargo weight (integer values only).70000
+Traceback (most recent call last):
+  File "/Users/jason.ross/workspace/python_oop_practice/vehicle_oop_example/fleet.py", line 126, in <module>
+    STruck.loadCargo(90000)
+  File "/Users/jason.ross/workspace/python_oop_practice/vehicle_oop_example/fleet.py", line 113, in loadCargo
+    self.weight = _weight + input(f"Enter cargo weight (integer values only).")
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
 '''
