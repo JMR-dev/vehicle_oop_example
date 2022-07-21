@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import random
 import enum
 # ABC is imported from the standard library since Python does not natively support abstract methods and classes.
 class Fleet():
@@ -46,7 +47,7 @@ class fuelTypes(enum.Enum):
     Aviation_Gas = 6
 class VehicleTypes(enum.Enum):
 # This enum exists to provide easy access to the user creating a new object type
-    semi_truck = 1
+    semi_Truck = 1
     train = 2
     truck = 3
     van = 4
@@ -130,17 +131,30 @@ class semi_Truck(RoadVehicle, GroundVehicleInterface):
             print(f"The semi truck is {self.status}.", f"Cargo weight is {self.weight}.")
 
 # https://realpython.com/factory-method-python/
+# Factory method patterns, both standard and polymorphic - https://python-3-patterns-idioms-test.readthedocs.io/en/latest/Factory.html#preventing-direct-creation
 class VehicleSerializer():
+    Vehicle(object)
+    def vehicleGen(n):
+        for i in range(n):
+            yield random.choice([semi_Truck, Train])
+            
+    def factory(type, vehicleGen):
+        try:
+            for vehicle in VehicleTypes:
+                if type == vehicle:
+                    vehicleGen()
+                elif type == False:
+                      "Bad vehicle creation: " + type            
+            
+        except TypeError:   
+            assert 0, "Bad vehicle creation: " + type
+        finally:
+            "Unexpected object creation error"
+
+
     
 # Create object first before asking for input. Then insert object
-    def inputFunc(user_input):
-        listVehicleTypes = print(map(VehicleTypes))
-        user_input = [input("Enter vehicle weight"), ]
-        return listVehicleTypes, user_input
     
-    def serialize(self, user_input, inputFunc):
-        serializer = inputFunc(user_input)
-        return serializer(user_input)
  
 # STruck = semi_Truck(2, 4, True, [40.0000, 40.0000], [56.0000, 89.0000], 60, 90000, "mph", "lbs,", "Ready", "1F8HNG7", "diesel")       
 
@@ -156,32 +170,46 @@ class VehicleSerializer():
 # Use these values in instances and show that values can be accessed regardless of what level they live on.
 # Make vehicle objects, add them to the fleet, and then have displayAllVehicles show the newly added vehicle. Stretch/further off, have different types of vehicles travel regardless of type.
 
-''' 
-Code scratchpad
+    ''' 
+    Code scratchpad
 
-For the travel method implemented from the interface
+    For the travel method implemented from the interface
 
-Vehicle.velocity = self.moveGroundVehicle
-        print("Traveling")
+    Vehicle.velocity = self.moveGroundVehicle
+            print("Traveling")
+            
+    Object implementation
+
+    Semi_Truck1 = semi_Truck(f"This truck has {2} trailers attached", f"and {4} axles.", True, [49.8900000, 50.900000])
+
+    # vehicle1 = Fleet("car", 120, "ground", Fleet.vehicles[0])
+    
+    # vehicle1.displayAllFleetMembers()
+
+    # addVehicle = Fleet("hovercraft", 50, "ground/water", 0)
+
+    # vehicle1.displayAllFleetMembers()
+
+    Error message
+        Enter cargo weight (integer values only).70000
+    Traceback (most recent call last):
+    File "/Users/jason.ross/workspace/python_oop_practice/vehicle_oop_example/fleet.py", line 126, in <module>
+        STruck.loadCargo(90000)
+    File "/Users/jason.ross/workspace/python_oop_practice/vehicle_oop_example/fleet.py", line 113, in loadCargo
+        self.weight = _weight + input(f"Enter cargo weight (integer values only).")
+    TypeError: unsupported operand type(s) for +: 'int' and 'str'
+
+
+    Scrapped factory class
+
+    def inputFunc(self, user_input, listVehicleTypes):
+            def _listVtypes():
+                listVehicleTypes = print(map(VehicleTypes))
+                return listVehicleTypes
+            user_input = [input("Enter vehicle weight"), ]
+            return listVehicleTypes, user_input
         
-Object implementation
-
-Semi_Truck1 = semi_Truck(f"This truck has {2} trailers attached", f"and {4} axles.", True, [49.8900000, 50.900000])
-
-# vehicle1 = Fleet("car", 120, "ground", Fleet.vehicles[0])
-  
-# vehicle1.displayAllFleetMembers()
-
-# addVehicle = Fleet("hovercraft", 50, "ground/water", 0)
-
-# vehicle1.displayAllFleetMembers()
-
-Error message
-    Enter cargo weight (integer values only).70000
-Traceback (most recent call last):
-  File "/Users/jason.ross/workspace/python_oop_practice/vehicle_oop_example/fleet.py", line 126, in <module>
-    STruck.loadCargo(90000)
-  File "/Users/jason.ross/workspace/python_oop_practice/vehicle_oop_example/fleet.py", line 113, in loadCargo
-    self.weight = _weight + input(f"Enter cargo weight (integer values only).")
-TypeError: unsupported operand type(s) for +: 'int' and 'str'
-'''
+        def serialize(self, user_input, inputFunc):
+            serializer = inputFunc(user_input, VehicleTypes)
+            return serializer(user_input)
+    '''
