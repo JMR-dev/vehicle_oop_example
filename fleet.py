@@ -5,14 +5,10 @@ import enum
 class Fleet():
     
     fleet_members = []
-    
-    def __init__(self, vehicleid):
-        self.uuid = vehicleid
-            
-            
+         
     def displayAllFleetMembers(self):
         for i in self.fleet_members:
-            print(i)
+            print(str(i))
         
     def addVehicle(self, newVehicleId):
         self.fleet_members.append(newVehicleId)
@@ -22,10 +18,12 @@ class Vehicle(ABC):
     # _fuelType = ("Diesel", "Gasoline", "Aviation Gas", "Electricity", "Nuclear", "100LL")
     
     # https://www.geeksforgeeks.org/inheritance-and-composition-in-python/
+    
+    def __str__(self):
+        return str(self.vehicleType)
     @abstractmethod
        
-    def __init__(self, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType ):
-        self.vehicleObject = Fleet(vehicleid)
+    def __init__(self, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType, _vehicleType):
         self.gpsPosition = _gpsPosition
         self.velocity = _velocity
         self.velocityType = _velocityType
@@ -33,6 +31,7 @@ class Vehicle(ABC):
         self.weightType = _weightType
         self.status = _status
         self.fuelType = _fuelType
+        self.vehicleType = _vehicleType
     
     def loadCargo(self, _weight):
         self.status = "loading cargo"
@@ -67,8 +66,8 @@ class GroundVehicleInterface(ABC):
 class GroundVehicle(Vehicle):
 
     @abstractmethod
-    def __init__(self, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status,vehicleid, _fuelType):
-        super().__init__(_gpsPosition, _velocity, _weight, _velocityType, _weightType, _status,vehicleid, _fuelType)
+    def __init__(self, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status,vehicleid, _fuelType, _vehicleType):
+        super().__init__(_gpsPosition, _velocity, _weight, _velocityType, _weightType, _status,vehicleid, _fuelType, _vehicleType)
         self.isModular = _isModular
         # modifier to GPS position
         self.moveGroundVehicle = _moveGroundVehicle
@@ -76,12 +75,14 @@ class GroundVehicle(Vehicle):
 class RoadVehicle(GroundVehicle):
     
     @abstractmethod
-    def __init__(self, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType):
-        super().__init__(_isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType)
+    def __init__(self, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType, _vehicleType):
+        super().__init__(_isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType, _vehicleType)
         self.axleCount = _axlecount
     
+    # Put class specific variables at the end of the constructor/super call
 class Train(GroundVehicle, GroundVehicleInterface):
-    def __init__(self, _noOfCarsAttached, _locomotiveCount):
+    def __init__(self, _noOfCarsAttached, _locomotiveCount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType):
+        super().__init__(_isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType, VehicleTypes.train)
         self.noOfCarsAttached = _noOfCarsAttached
         self.locomotiveCount = _locomotiveCount
         
@@ -114,7 +115,7 @@ class semi_Truck(RoadVehicle, GroundVehicleInterface):
     def __init__(self, _noOfTrailersAttached, _axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType):
         self.noOfTrailersAttached = _noOfTrailersAttached
         # super in Python returns an object representing the parent class and 
-        super().__init__(_axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType)
+        super().__init__(_axlecount, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status, vehicleid, _fuelType, VehicleTypes.semi_Truck)
         # Don't modify passed in values unless absolutely necessary
     def displaySemiAttributes(self):
         print(f"The semi has {self.noOfTrailersAttached} trailers attached", f"and {self.axleCount} axles.")
@@ -132,24 +133,38 @@ class semi_Truck(RoadVehicle, GroundVehicleInterface):
 
 # https://realpython.com/factory-method-python/
 # Factory method patterns, both standard and polymorphic - https://python-3-patterns-idioms-test.readthedocs.io/en/latest/Factory.html#preventing-direct-creation
-class VehicleSerializer():
-    Vehicle(object)
-    def vehicleGen(n):
-        for i in range(n):
-            yield random.choice([semi_Truck, Train])
+class VehicleFactory():
+    def factory(self, _type):
+        # try:
+                if _type == VehicleTypes.semi_Truck:
+                   
+                    truckToBuild = semi_Truck(2, 4, True, [40.0000, 50.0000], [30.0000, 20.000], 60, 90000, "mph", "lbs", "traveling", "307UNHL", fuelTypes.Diesel)
+                    return truckToBuild
+                elif _type == VehicleTypes.train:
+                    return Train(4, 5,True, [40.0000, 50.0000], [30.0000, 20.000], 60, 90000, "mph", "lbs", "traveling", "307UNHL", fuelTypes.Diesel )
+                else:
+                    "Bad vehicle creation: " + str(type)            
+        # except TypeError:
+        #     print("Unexpected object creation error")
             
-    def factory(type, vehicleGen):
-        try:
-            for vehicle in VehicleTypes:
-                if type == vehicle:
-                    vehicleGen()
-                elif type == False:
-                      "Bad vehicle creation: " + type            
-            
-        except TypeError:   
-            assert 0, "Bad vehicle creation: " + type
-        finally:
-            "Unexpected object creation error"
+ShippingFleet = Fleet()
+
+factory1 = VehicleFactory()
+
+SemiTruck1 = factory1.factory(VehicleTypes.semi_Truck)
+
+# print(SemiTruck1)
+
+Train1 = factory1.factory(VehicleTypes.train)
+
+ShippingFleet.addVehicle(Train1)
+
+ShippingFleet.addVehicle(SemiTruck1)
+
+# ShippingFleet.displayAllFleetMembers()
+
+ShippingFleet.displayAllFleetMembers()
+
 
 
     
@@ -170,7 +185,7 @@ class VehicleSerializer():
 # Use these values in instances and show that values can be accessed regardless of what level they live on.
 # Make vehicle objects, add them to the fleet, and then have displayAllVehicles show the newly added vehicle. Stretch/further off, have different types of vehicles travel regardless of type.
 
-    ''' 
+''' 
     Code scratchpad
 
     For the travel method implemented from the interface
