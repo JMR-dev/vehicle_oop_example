@@ -69,9 +69,8 @@ class GroundVehicle(Vehicle):
     def __init__(self, _isModular, _moveGroundVehicle, _gpsPosition, _velocity, _weight, _velocityType, _weightType, _status,vehicleid, _fuelType, _vehicleType):
         super().__init__(_gpsPosition, _velocity, _weight, _velocityType, _weightType, _status,vehicleid, _fuelType, _vehicleType)
         self.isModular = _isModular
-        # modifier to GPS position
         self.moveGroundVehicle = _moveGroundVehicle
-        
+        # modifier to GPS position
 class RoadVehicle(GroundVehicle):
     
     @abstractmethod
@@ -137,13 +136,14 @@ class VehicleFactory():
     def factory(self, _type):
         # try:
                 if _type == VehicleTypes.semi_Truck:
-                   
+                
                     truckToBuild = semi_Truck(2, 4, True, [40.0000, 50.0000], [30.0000, 20.000], 60, 90000, "mph", "lbs", "traveling", "307UNHL", fuelTypes.Diesel)
                     return truckToBuild
+                # Make these parameters and not hard coded values
                 elif _type == VehicleTypes.train:
-                    return Train(4, 5,True, [40.0000, 50.0000], [30.0000, 20.000], 60, 90000, "mph", "lbs", "traveling", "307UNHL", fuelTypes.Diesel )
+                    return Train(4, 5, True, [40.0000, 50.0000], [30.0000, 20.000], 60, 90000, "mph", "lbs", "traveling", "307UNHL", fuelTypes.Diesel )
                 else:
-                    "Bad vehicle creation: " + str(type)            
+                    print("Bad vehicle creation: " + str(type))
         # except TypeError:
         #     print("Unexpected object creation error")
             
