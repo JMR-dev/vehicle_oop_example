@@ -1,1 +1,3 @@
 *.md
+.$Fleet.drawio.html.bkp
+.DS_Store
